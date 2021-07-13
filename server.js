@@ -1,7 +1,22 @@
 const express = require("express");
 const path = require("path")
 const app = express();
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
+
+// const express = require('express')
+const bodyParser= require('body-parser')
+const nodemailer = require('nodemailer')
+const { google } = require('googleapis')
+
+const OAuth2 = google.auth.OAuth2
+const oauth2Client = new OAuth2(
+// process.env.CLIENTID,
+// process.env.CLIENTSECRET,
+"https://developers.google.com/oauthplayground")
+
+app.use(express.urlencoded({
+  extended: true
+}));
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,16 +34,23 @@ app.get('/', (req, res) => {
  app.post("/", (req, res)=>{
     console.log(req.body);
 
-    const transporter = nodemailer.createTransport({
-    service: 'gmail',
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
     auth: {
-        // user: 'tribytz@gmail.com',
-        // pass: 'test@1234'
-
-        user: process.env.USER,
-        pass: process.env.PASS
+        type: "OAuth2",
+        user: process.env.EMAIL, // email you are using with nodemailer
+        pass: process.env.PASSWORD, // email password
+        clientId: process.env.CLIENTID,
+        clientSecret:process.env.CLIENTSECRET,
+        refreshToken: process.env.REFRESHTOK,
+        accessToken: process.env.ACCESSTOK,
+    },
+    tls:{
+       rejectUnauthorized:false 
     }
-})
+  });
 
     const mailOptions ={
         from: req.body.email,
