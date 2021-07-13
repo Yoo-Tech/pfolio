@@ -871,13 +871,14 @@ section.contact-me {
 .skill{
     width: 80%;
     height: 30px;
-    background-color: rgb(30, 128, 118);
+    background-color: turquoise;
+    /* background-color: rgb(30, 128, 118); */
 }
 .skill p{
-    width: 25%;
+    width: 30%;
     height: 30px;
     background-color: turquoise;
-    padding: 2px;
+    padding: 3px ;
 }
 .j {
     width: 63% ; 
